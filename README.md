@@ -1,9 +1,10 @@
 # terraform-ec2-multiple
 
+
 This repository contains Terraform code to automatically provision multiple EC2 instances in AWS using GitHub Actions for CI/CD. Changes pushed to this repo will trigger Terraform workflows that plan and apply infrastructure changes.
 
 
-PROJECT STRUCTURE:
+PROJECT STRUCTURE::
 
 terraform-ec2-multiple/
 │
