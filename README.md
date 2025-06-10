@@ -16,4 +16,11 @@ terraform-ec2-multiple/
     └── workflows/
         └── terraform.yml   # GitHub Actions workflow file
 
+Outcome:
+
+Infrastructure as Code (IaC) using Terraform
+Automated provisioning through GitHub Actions
+Secure credential handling with GitHub Secrets
+Full DevOps workflow from GitHub to AWS
+
 ![WhatsApp Image 2025-06-10 at 13 32 31_49630347](https://github.com/user-attachments/assets/10c271a0-cde7-47d4-be0b-5e25d0790a50)
