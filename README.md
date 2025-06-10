@@ -15,3 +15,5 @@ terraform-ec2-multiple/
 └── .github/
     └── workflows/
         └── terraform.yml   # GitHub Actions workflow file
+
+![WhatsApp Image 2025-06-10 at 13 32 31_49630347](https://github.com/user-attachments/assets/10c271a0-cde7-47d4-be0b-5e25d0790a50)
