@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - main
-
+    paths:
+      - '**.tf'
+      - '.github/workflows/terraform.yml'
+      - 'terraform/**'
 jobs:
   terraform:
     runs-on: ubuntu-latest
