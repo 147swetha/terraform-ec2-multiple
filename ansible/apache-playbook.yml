@@ -1,0 +1,20 @@
+---
+- name: Install and configure Apache on Amazon Linux
+  hosts: web
+  become: true
+  tasks:
+    - name: Install Apache
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start and enable Apache service
+      service:
+        name: httpd
+        state: started
+        enabled: true
+
+    - name: Create a test page
+      copy:
+        dest: /var/www/html/index.html
+        content: "Apache is installed and running!"
