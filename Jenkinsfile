@@ -1,31 +1,43 @@
 pipeline {
     agent any
+
     environment {
-        ANSIBLE_HOST_KEY_CHECKING = 'False'
+        TF_DIR = '.'  // Your Terraform files are at the repo root
     }
+
     stages {
-        stage('Terraform Init & Apply') {
+        stage('Checkout Code') {
             steps {
-                dir('terraform') {
+                git 'https://github.com/<your-username>/terraform-ec2-multiple.git'  // Replace with your GitHub URL
+            }
+        }
+
+        stage('Terraform Init') {
+            steps {
+                dir("${env.TF_DIR}") {
                     sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Apply') {
+            steps {
+                dir("${env.TF_DIR}") {
                     sh 'terraform apply -auto-approve'
                 }
             }
         }
-        stage('Generate Inventory') {
+
+        stage('Generate Ansible Inventory') {
             steps {
-                dir('ansible') {
-                    sh 'chmod +x generate_inventory.sh'
-                    sh './generate_inventory.sh'
-                }
+                sh 'chmod +x ansible/generate_inventory.sh && ansible/generate_inventory.sh > ansible/inventory.ini'
             }
         }
+
         stage('Run Ansible Playbook') {
             steps {
-                dir('ansible') {
-                    sshagent(['ansible-ssh-key']) {
-                        sh 'ansible-playbook -i inventory.ini apache-playbook.yml'
-                    }
+                sshagent(['ansible-ssh-key']) {
+                    sh 'ansible-playbook -i ansible/inventory.ini ansible/apache-playbook.yml'
                 }
             }
         }
