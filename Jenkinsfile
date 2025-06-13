@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git 'https://github.com/<your-username>/terraform-ec2-multiple.git'  // Replace with your GitHub URL
+                git 'https://github.com/147swetha/terraform-ec2-multiple'  // Replace with your GitHub URL
             }
         }
 
