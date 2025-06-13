@@ -2,16 +2,10 @@ pipeline {
     agent any
 
     environment {
-        TF_DIR = '.'  // Your Terraform files are at the repo root
+        TF_DIR = '.' // Terraform files are at the repo root
     }
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                git 'https://github.com/147swetha/terraform-ec2-multiple'  // Replace with your GitHub URL
-            }
-        }
-
         stage('Terraform Init') {
             steps {
                 dir("${env.TF_DIR}") {
