@@ -1,27 +1,95 @@
-# terraform-ec2-multiple
+# Terraform + Ansible CI/CD Automation with Jenkins
 
+This project demonstrates an end-to-end infrastructure and configuration automation workflow using:
 
-This repository contains Terraform code to automatically provision multiple EC2 instances in AWS using GitHub Actions for CI/CD. Changes pushed to this repo will trigger Terraform workflows that plan and apply infrastructure changes.
+- **Terraform**: To provision AWS EC2 instances.
+- **Ansible**: To configure the instances (e.g., install Apache).
+- **Jenkins**: To automate the CI/CD pipeline.
+- **GitHub**: As the source code repository.
 
+---
 
-PROJECT STRUCTURE::
+## 🔧 Tools Used
+
+- **Terraform**: Infrastructure as Code
+- **Ansible**: Configuration Management
+- **Jenkins**: CI/CD Automation
+- **AWS**: Cloud Infrastructure (EC2)
+- **GitHub**: Code Repository
+
+---
+
+## 📂 Repository Structure
 
 terraform-ec2-multiple/
 │
-├── main.tf              # Main configuration file
-├── variables.tf         # Input variables
-├── outputs.tf           # Output values
-├── terraform.tfvars     # Values for variables
-├── provider.tf          # AWS provider configuration
-└── .github/
-    └── workflows/
-        └── terraform.yml   # GitHub Actions workflow file
+├── .github/workflows/ # (Optional for GitHub Actions - not used in Jenkins pipeline)
+├── ansible/
+│ ├── apache-playbook.yml # Installs & configures Apache on target EC2s
+│ └── generate_inventory.sh # Generates Ansible inventory from Terraform output
+│
+├── main.tf # Terraform configuration to create EC2 instances
+├── variables.tf # Input variables for Terraform
+├── outputs.tf # Outputs like instance public IPs
+├── Jenkinsfile # Jenkins Pipeline script
+└── README.md # Project overview
 
-Outcome:
 
-Infrastructure as Code (IaC) using Terraform
-Automated provisioning through GitHub Actions
-Secure credential handling with GitHub Secrets
-Full DevOps workflow from GitHub to AWS
+---
 
-![WhatsApp Image 2025-06-10 at 13 32 31_49630347](https://github.com/user-attachments/assets/10c271a0-cde7-47d4-be0b-5e25d0790a50)
+## 🔄 Automation Flow (CI/CD)
+
+1. **Trigger Jenkins Job**:
+   - Jenkins pulls the latest code from GitHub.
+   - Starts the pipeline defined in `Jenkinsfile`.
+
+2. **Terraform Stages**:
+   - `terraform init` initializes the Terraform project.
+   - `terraform apply -auto-approve` provisions EC2 instances.
+
+3. **Ansible Inventory**:
+   - A shell script generates an Ansible inventory using Terraform output.
+
+4. **Ansible Stage**:
+   - Jenkins uses `ssh-agent` with your SSH key to connect.
+   - Runs `ansible-playbook` to install Apache on the EC2 instances.
+
+5. **Result**:
+   - Apache is installed and running.
+   - You can access the web server using the public IPs from Terraform.
+
+---
+
+## ✅ How to Run
+
+1. Commit changes to GitHub.
+2. Trigger the Jenkins pipeline.
+3. Wait for all stages to complete.
+4. Get the public IPs from Terraform output or AWS Console.
+5. Access Apache on: `http://<public-ip>` from your browser.
+
+---
+
+## 🧠 What We Have Automated
+
+- ✅ Infrastructure provisioning using Terraform (multi-instance EC2 setup)
+- ✅ Configuration automation using Ansible (Apache install)
+- ✅ Jenkins pipeline with multi-stage CI/CD
+- ✅ GitHub integrated source control
+- ✅ Dynamic inventory generation for Ansible
+- ✅ Credentials & key handling securely via Jenkins
+  
+---
+
+## 📌 Important Notes
+
+- **Public IPs change** each time EC2 instances are destroyed & recreated. Update the inventory or consider using Elastic IPs.
+- Jenkins requires AWS credentials for Terraform to work. These were set up via Jenkins > Manage Credentials.
+- SSH Key (`ansible-key.pem`) must match the one used in your Terraform EC2 provisioning.
+
+---
+
+
+
+
+
